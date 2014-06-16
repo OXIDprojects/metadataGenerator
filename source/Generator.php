@@ -48,12 +48,6 @@ class Generator
      */
     protected function _getConfig()
     {
-        if (class_exists('oxRegistry')) {
-            $config = oxRegistry::getConfig();
-        } else {
-            $config = oxConfig::getInstance();
-        }
-
-        return $config;
+        return oxRegistry::getConfig();
     }
 }
