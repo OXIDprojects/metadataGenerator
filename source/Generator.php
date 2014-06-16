@@ -31,23 +31,13 @@ class Generator
     public function run()
     {
         $moduleList = new oxModuleList();
-        $modules = $moduleList->getModulesFromDir($this->_getConfig()->getModulesDir());
+        $modules = $moduleList->getModulesFromDir(oxRegistry::getConfig()->getModulesDir());
 
         foreach( $modules as $module ){
             if( !$module->hasMetadata() ) {
-                $generator = new MetaDataGenerator($module, $this->_getConfig()->getModulesDir());
+                $generator = new MetaDataGenerator($module, oxRegistry::getConfig()->getModulesDir());
                 $generator->generate();
             }
         }
-    }
-
-    /**
-     * Return shop configuration object
-     *
-     * @return oxConfig
-     */
-    protected function _getConfig()
-    {
-        return oxRegistry::getConfig();
     }
 }
