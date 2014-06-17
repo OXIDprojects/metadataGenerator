@@ -42,7 +42,7 @@ class MetaDataGenerator {
      * @param oxModule $module module
      * @param string $modulesDir string folder
      */
-    function __construct( oxModule $module, $modulesDir)
+    function __construct(oxModule $module, $modulesDir)
     {
         $this->setModule($module);
         $this->setModulesDir($modulesDir);
@@ -53,7 +53,7 @@ class MetaDataGenerator {
      *
      * @param oxModule $module module entity
      */
-    public function setModule($module)
+    public function setModule(oxModule $module)
     {
         $this->_module = $module;
     }
@@ -108,6 +108,6 @@ class MetaDataGenerator {
      */
     public function getMetaDataPath()
     {
-        return  $this->getModulesDir() . $this->getModule()->getModulePath(). '/metadata.php';
+        return $this->getModulesDir() . $this->getModule()->getModulePath() . '/metadata.php';
     }
 }
