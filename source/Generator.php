@@ -33,11 +33,21 @@ class Generator
         $moduleList = new oxModuleList();
         $modules = $moduleList->getModulesFromDir(oxRegistry::getConfig()->getModulesDir());
 
+        echo "Generation started. \n";
+        $generated = array();
+
         foreach( $modules as $module ){
             if( !$module->hasMetadata() ) {
+                $generated[] = $module->getId();
                 $generator = new MetaDataGenerator($module, oxRegistry::getConfig()->getModulesDir());
                 $generator->generate();
             }
+        }
+
+        if (count($generated)){
+            echo "Generated for: " . implode(', ', $generated) . ". Finished. \n";
+        }else {
+            echo "0 files generated. Most likely all metadata.php files exit.\n";
         }
     }
 }
