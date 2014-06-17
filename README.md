@@ -1,6 +1,8 @@
 metadataGenerator
 =================
 
+OXID eSales legacy module metadata.php file generator.
+
 # Description
 
 OXID eSales legacy module metadata.php file generator.
@@ -16,9 +18,9 @@ Tool support this shop versions:
 
 # Installation and usage
 
- * Copy script near the shop
+ * Copy script folder metadataGenerator near the shop (copy of the shop, ensure that you have backup)
  * Set the full path to the shop in config.php file
- * Run the script.
+ * Run the script main.php (from console or browser).
  * Check generated metadata.php files. Change title, description other properties.
  More information: http://wiki.oxidforge.org/Features/Extension_metadata_file
 
