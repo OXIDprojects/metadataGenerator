@@ -47,7 +47,7 @@ class Generator
         if (count($generated)){
             echo "Generated for: " . implode(', ', $generated) . ". Finished. \n";
         }else {
-            echo "0 files generated. Most likely all metadata.php files exit.\n";
+            echo "0 files generated. Most likely all metadata.php files exist.\n";
         }
     }
 }
