@@ -30,7 +30,7 @@ class Generator
      */
     public function run()
     {
-        $moduleList = new oxModuleList();
+        $moduleList = oxNew('oxModuleList');
         $modules = $moduleList->getModulesFromDir(oxRegistry::getConfig()->getModulesDir());
 
         echo "Generation started. \n";
