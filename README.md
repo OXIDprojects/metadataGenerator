@@ -15,7 +15,7 @@ The following OXID eShop versions are supported:
 
  * Backup your OXID eShop installation
  * Best, use your development environment for generating the metadata.php
- * Copy the folder /metadataGenerator/ to the same directory level where your OXID eShop installation runs
+ * Copy /source folder and php files to the same directory level where your OXID eShop installation runs
  * Set the full server path (for example '/var/www/myShop/') to the shop in config.php file
  * Run the script main.php (from console or browser)
  * Check the generated metadata.php files. Change the title, the description or other properties if needed
