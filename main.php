@@ -20,11 +20,11 @@
  */
 
 require_once dirname( __FILE__ ) . "/config.php";
-require_once dirname( __FILE__ ) . "/source/Generator.php";
+require_once dirname(__FILE__) . "/source/GeneratorHandler.php";
 require_once dirname( __FILE__ ) . "/source/MetaDataGenerator.php";
 require_once dirname( __FILE__ ) . "/source/File.php";
 require_once dirname( __FILE__ ) . "/source/MetaData.php";
 require_once SHOP_PATH . "/bootstrap.php";
 
-$generator = new Generator();
+$generator = new GeneratorHandler();
 $generator->run();
