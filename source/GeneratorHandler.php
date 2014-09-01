@@ -23,7 +23,7 @@
 /**
  * Main script class which runs generation
  */
-class Generator
+class GeneratorHandler
 {
     /**
      * Main generator function, executes metadata generation.
