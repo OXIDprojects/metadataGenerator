@@ -87,6 +87,7 @@ class MetaDataGenerator {
                 }
             }
         }
+
         return $aClasses;
     }
 
