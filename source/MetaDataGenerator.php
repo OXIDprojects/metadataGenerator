@@ -48,6 +48,76 @@ class MetaDataGenerator {
         $this->setModulesDir($modulesDir);
     }
 
+
+    /**
+     * Returns the class files of the module.
+     * @author jschuster <code@wbl-konzept.de>
+     *
+     * @return array with classes
+     */
+    protected function loadFilesOfModule()
+    {
+        $aClasses = $this->getPHPClassesOfFiles($this->getModulesDir() . $this->getModule()->getModulePath());
+
+        return $aClasses;
+    }
+
+
+    /**
+     * Iterates through every file in a folder and saves the result of the method getClassesOfFile in an array.
+     * @author jschuster <code@wbl-konzept.de>
+     * @param  string $sPath The module dir.
+     *
+     * @return array
+     */
+    function getPHPClassesOfFiles($sPath)
+    {
+        $oDirs = new RecursiveDirectoryIterator($sPath, FilesystemIterator::SKIP_DOTS);
+        $oIterater = new RecursiveIteratorIterator($oDirs);
+        $aClasses = array();
+        $sModuleDir = $this->getModulesDir();
+
+        foreach ($oIterater as $oFilePath) {
+            $sFilePath = (string)$oFilePath;
+            $sRelativeFilePath = str_replace($sModuleDir, '', $sFilePath);
+
+            if ($aNames = $this->getClassesOfFile($sFilePath)) {
+                foreach ($aNames as $sName) {
+                    $aClasses[$sName] = $sRelativeFilePath;
+                }
+            }
+        }
+
+        return $aClasses;
+    }
+
+
+    /**
+     * Returns the class names of a file.
+     * @author jschuster <code@wbl-konzept.de>
+     * @param string $sFilePath The path to a file.
+     *
+     * @return array
+     */
+    function getClassesOfFile($sFilePath)
+    {
+        $oContent = file_get_contents($sFilePath);
+        $aClasses = array();
+        $aTokens = token_get_all($oContent);
+
+        if ($aTokens) {
+            foreach ($aTokens as $iIndex => $aToken) {
+                if (($aToken[0] === T_CLASS) && ($aTokens[$iIndex + 2][0] === T_STRING)) {
+                    $aClasses[] = $aTokens[$iIndex + 2][1];
+
+                }
+            }
+        }
+
+        return $aClasses;
+    }
+
+
     /**
      * Module setter.
      *
@@ -94,6 +164,7 @@ class MetaDataGenerator {
     public function generate()
     {
         $oMetaDataFile = new MetaData($this->getModule()->getId());
+        $oMetaDataFile->setFiles($this->loadFilesOfModule());
         $oMetaDataFile->setExtensions($this->getModule()->getExtensions());
 
         $oFile = new File($this->getMetaDataPath());

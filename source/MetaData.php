@@ -29,11 +29,39 @@ class MetaData {
     private $_extensions = array();
 
     /**
+     * Files array.
+     *
+     * @var array
+     */
+    private $_files = array();
+
+    /**
      * Module id
      *
      * @var string
      */
     private $_moduleId = '';
+
+    /**
+     * Returns the files array.
+     *
+     * @return array
+     */
+    public function getFiles()
+    {
+        return $this->_files;
+    }
+
+    /**
+     * Sets the files array.
+     *
+     * @param array $files
+     * @return void
+     */
+    public function setFiles(array $files)
+    {
+        $this->_files = $files;
+    }
 
     /**
      * Module id setter
@@ -103,7 +131,7 @@ class MetaData {
             'version'      => '1.0',
             'author'       => 'Author',
             'extend'       => $this->getExtensions(),
-            'files'        => array(),
+            'files'        => $this->getFiles(),
             'blocks'       => array(),
             'settings'     => array(),
             'templates'    => array(),
