@@ -70,22 +70,27 @@ class MetaDataGenerator {
      *
      * @return array
      */
-    function getPHPClassesOfFiles($sPath)
+    protected function getPHPClassesOfFiles($sPath)
     {
-        $oDirs = new RecursiveDirectoryIterator($sPath, FilesystemIterator::SKIP_DOTS);
-        $oIterater = new RecursiveIteratorIterator($oDirs);
         $aClasses = array();
-        $sModuleDir = $this->getModulesDir();
 
-        foreach ($oIterater as $oFilePath) {
-            $sFilePath = (string)$oFilePath;
-            $sRelativeFilePath = str_replace($sModuleDir, '', $sFilePath);
+        try {
+            $oDirs      = new RecursiveDirectoryIterator($sPath, FilesystemIterator::SKIP_DOTS);
+            $oIterater  = new RecursiveIteratorIterator($oDirs);
+            $sModuleDir = $this->getModulesDir();
 
-            if ($aNames = $this->getClassesOfFile($sFilePath)) {
-                foreach ($aNames as $sName) {
-                    $aClasses[$sName] = $sRelativeFilePath;
+            foreach ($oIterater as $oFilePath) {
+                $sFilePath         = (string) $oFilePath;
+                $sRelativeFilePath = str_replace($sModuleDir, '', $sFilePath);
+
+                if ($aNames = $this->getClassesOfFile($sFilePath)) {
+                    foreach ($aNames as $sName) {
+                        $aClasses[$sName] = $sRelativeFilePath;
+                    }
                 }
             }
+        } catch (Exception $oExc) {
+
         }
 
         return $aClasses;
@@ -99,7 +104,7 @@ class MetaDataGenerator {
      *
      * @return array
      */
-    function getClassesOfFile($sFilePath)
+    protected function getClassesOfFile($sFilePath)
     {
         $oContent = file_get_contents($sFilePath);
         $aClasses = array();
