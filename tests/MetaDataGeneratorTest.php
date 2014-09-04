@@ -58,6 +58,42 @@ class MetaDataGeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertSame('folder/', $metaData->getModulesDir());
     }
 
+    public function testLoadFilesOfModuleEmpty()
+    {
+        $module = $this->getMock('oxModule', array('getModulePath'));
+
+        $module->expects($this->any())
+            ->method('getModulePath')
+            ->will($this->returnValue('modulePath'));
+
+        $metaData = new MetaDataGenerator($module, 'modules/');
+        $metaData->setModulesDir('otherDir/');
+
+        $class  = new ReflectionClass('MetaDataGenerator');
+        $method = $class->getMethod('loadFilesOfModule');
+        $method->setAccessible(true);
+
+        $this->assertSame(array(), $method->invoke($metaData));
+    } // function
+
+    public function testLoadFilesOfModuleFilled()
+    {
+        $module = $this->getMock('oxModule', array('getModulePath'));
+
+        $module->expects($this->any())
+            ->method('getModulePath')
+            ->will($this->returnValue('files'));
+
+        $metaData = new MetaDataGenerator($module, 'modules/');
+        $metaData->setModulesDir(__DIR__ . DIRECTORY_SEPARATOR);
+
+        $class  = new ReflectionClass('MetaDataGenerator');
+        $method = $class->getMethod('loadFilesOfModule');
+        $method->setAccessible(true);
+
+        $this->assertSame(array('TestClass' => 'files' . DIRECTORY_SEPARATOR . 'TestClass.php'), $method->invoke($metaData));
+    } // function
+
     public function testGetModule_Set()
     {
         $module = $this->getMock('oxModule');
