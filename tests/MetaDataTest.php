@@ -23,6 +23,18 @@ require_once dirname( __FILE__ ) . "/../source/MetaData.php";
 
 class MetaDataTest extends PHPUnit_Framework_TestCase
 {
+    public function testGetFiles()
+    {
+        $metaData = new MetaData('moduleId');
+
+        $this->assertSame(array(), $metaData->getFiles());
+
+        $testArray = array(uniqid());
+        $metaData->setFiles($testArray);
+
+        $this->assertSame($testArray, $metaData->getFiles());
+    } // function
+
     public function testGetModuleId_Constructor()
     {
         $metaData = new MetaData('moduleId');
@@ -47,6 +59,48 @@ class MetaDataTest extends PHPUnit_Framework_TestCase
         $metaData = new MetaData('moduleId');
         $metaData->setExtensions(array('file' => 'extendPath'));
         $this->assertSame(array('file' => 'extendPath'), $metaData->getExtensions());
+    }
+
+    public function testGetContent_WithExtensionsAndFiles()
+    {
+        $expectedContent = "
+            <?php
+                \$sMetadataVersion = '1.1';
+                \$aModule = array (
+                  'id' => 'moduleId',
+                  'title' => 'Title moduleId',
+                  'description' => 'Description moduleId',
+                  'thumbnail' => 'picture.png',
+                  'version' => '1.0',
+                  'author' => 'Author',
+                  'extend' =>
+                  array (
+                    'file' => 'extendPath',
+                  ),
+                  'files' =>
+                  array (
+                    'foo' => 'bar', 'bar' => 'baz',
+                  ),
+                  'blocks' =>
+                  array (
+                  ),
+                  'settings' =>
+                  array (
+                  ),
+                  'templates' =>
+                  array (
+                  ),
+                  'events' =>
+                  array (
+                  ),
+                );
+        ";
+
+        $metaData = new MetaData('moduleId');
+        $metaData->setExtensions( array('file' => 'extendPath') );
+        $metaData->setFiles(array('foo' => 'bar', 'bar' => 'baz'));
+
+        $this->assertEquals(preg_replace('/\s+/', '', $expectedContent), preg_replace('/\s+/', '',$metaData->getContent()));
     }
 
     public function testGetContent_WithoutExtensions()
